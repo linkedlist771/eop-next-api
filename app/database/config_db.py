@@ -24,9 +24,24 @@ class Config(Model):
 
         return p_b, p_lat, formkey, proxy
 
+    # @classmethod
+    # async def update_setting(cls, p_b: str, p_lat: str, formkey: str, proxy: str):
+    #     await cls.filter(key="p_b").limit(1).update(value=p_b)
+    #     await cls.filter(key="p_lat").limit(1).update(value=p_lat)
+    #     await cls.filter(key="formkey").limit(1).update(value=formkey)
+    #     await cls.filter(key="proxy").limit(1).update(value=proxy)
+
     @classmethod
     async def update_setting(cls, p_b: str, p_lat: str, formkey: str, proxy: str):
-        await cls.filter(key="p_b").limit(1).update(value=p_b)
-        await cls.filter(key="p_lat").limit(1).update(value=p_lat)
-        await cls.filter(key="formkey").limit(1).update(value=formkey)
-        await cls.filter(key="proxy").limit(1).update(value=proxy)
+        async def update_value(key: str, value: str):
+            config = await cls.filter(key=key).first()
+            if config:
+                config.value = value
+                await config.save()
+            else:
+                await cls.create(key=key, value=value)
+
+        await update_value("p_b", p_b)
+        await update_value("p_lat", p_lat)
+        await update_value("formkey", formkey)
+        await update_value("proxy", proxy)
