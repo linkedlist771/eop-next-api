@@ -1,5 +1,10 @@
 # 本仓库为纯后端，前端需自行另外实现
 
+
+## 注意事项:
+1. 记得使用Python3.11。
+2. 记得使用海外的VPS来调试。
+
 接口文档运行后访问路径/docs或/redoc  
 
 require Python environment >= 3.11

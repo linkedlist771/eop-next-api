@@ -303,19 +303,27 @@ class Poe_Client:
             else:
                 data = generate_data(query_name, variables, hash)
                 base_string = data + self.formkey + "4LxgHM6KpFqokX0Ox"
+                headers = {
+                    **self.headers,
+                    **{
+                        "content-type": "application/json",
+                        "Poe-Queryname": query_name,
+                        "poe-tag-id": md5(base_string.encode()).hexdigest(),
+                    },
+                }
+                logger.info(f"Request parameters:")
+                logger.info(f"Method: POST")
+                logger.info(f"URL: {GQL_URL}")
+                logger.info(f"Data: {data}")
+                logger.info(f"Headers: {headers}")
+                logger.info(f"Timeout: {ClientTimeout(60)}")
+                logger.info(f"Proxy: {self.proxy}")
                 async with request(
                     "POST",
                     GQL_URL,
                     data=data,
-                    headers={
-                        **self.headers,
-                        **{
-                            "content-type": "application/json",
-                            "Poe-Queryname": query_name,
-                            "poe-tag-id": md5(base_string.encode()).hexdigest(),
-                        },
-                    },
-                    timeout=ClientTimeout(5),
+                    headers=headers,
+                    timeout=ClientTimeout(20),
                     proxy=self.proxy,
                 ) as response:
                     status_code = response.status
@@ -343,7 +351,8 @@ class Poe_Client:
             #     500 <= status_code < 600
             # ) and forbidden_times < 1:
             #     return await self.send_query(query_name, variables, forbidden_times + 1)
-
+            from traceback import format_exc
+            logger.error(format_exc())
             err_code = f"status_code:{status_code}，" if status_code else ""
             raise Exception(
                 f"执行请求【{query_name}】失败，{err_code}错误信息: {repr(e)}"

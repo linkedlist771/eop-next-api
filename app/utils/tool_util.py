@@ -72,7 +72,9 @@ fastapi_logger_config = {
         },
     },
 }
-logger = getLogger("uvicorn.error")
+# logger = getLogger("uvicorn.error")
+
+from loguru import logger
 
 
 class Filter404(logging.Filter):

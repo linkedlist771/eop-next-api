@@ -16,9 +16,11 @@ from routers.user_routers import router as user_router
 from services.jwt_auth import AuthFailed
 from services.poe_client import login_poe, scheduler
 from utils.env_util import gv
-from utils.tool_util import Custom404Middleware, fastapi_logger_config, logger
+from utils.tool_util import Custom404Middleware, fastapi_logger_config
+from loguru import logger
 from uvicorn import run
 
+from traceback import format_exc
 ################
 ### 后端定义
 ################
@@ -112,3 +114,5 @@ if __name__ == "__main__":
         pass
     except Exception as e:
         logger.error(f"uvicorn出错：{repr(e)}")
+        logger.error(format_exc())
+
