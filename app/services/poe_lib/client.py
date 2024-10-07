@@ -316,14 +316,14 @@ class Poe_Client:
                 logger.info(f"URL: {GQL_URL}")
                 logger.info(f"Data: {data}")
                 logger.info(f"Headers: {headers}")
-                logger.info(f"Timeout: {ClientTimeout(60)}")
+                logger.info(f"Timeout: {ClientTimeout(5)}")
                 logger.info(f"Proxy: {self.proxy}")
                 async with request(
                     "POST",
                     GQL_URL,
                     data=data,
                     headers=headers,
-                    timeout=ClientTimeout(20),
+                    timeout=ClientTimeout(5),
                     proxy=self.proxy,
                 ) as response:
                     status_code = response.status
