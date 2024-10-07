@@ -1,7 +1,7 @@
 # 接口路径前缀，如果不需要留空
 API_PATH = "/api"
 # 监听的IP和端口
-HOST = "127.0.0.1"
+HOST = "0.0.0.0"
 PORT = 8080
 # 跨域配置
 ORIGINS = '["https://*.xxx.com", "http://*.xxx.com"]'
